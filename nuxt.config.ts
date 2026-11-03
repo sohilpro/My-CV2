@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   runtimeConfig: { githubToken: "" },
   app: {
     app: {
-      baseURL: "/my-portfolio/",
+      baseURL: "/My-CV2/",
     },
     head: {
       meta: [

@@ -36,7 +36,7 @@ jobs:
       - name: Build Nuxt
         run: npx nuxt build --preset github_pages
         env:
-          NUXT_APP_BASE_URL: /my-portfolio/
+          NUXT_APP_BASE_URL: /My-CV2/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
