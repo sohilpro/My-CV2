@@ -1,0 +1,98 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --c-ink: #f5f5fb; --c-panel: #ffffff; --c-line: #dcdcee;
+  --c-fg: #16162e; --c-muted: #5a5a78;
+  --c-violet: #7c3aed; --c-cyan: #0e7490; --c-pink: #db2777;
+  --glass-bg: rgb(255 255 255 / 0.65); --glass-bd: rgb(20 20 50 / 0.1);
+  /* بنرهای گیت‌هاب (رنگ‌های اصلی SVG شما: آبی + فیروزه‌ای) */
+  --bn-a: #0071e3; --bn-b: #0f9d9a;
+  --bn-bg: linear-gradient(135deg, #ffffff 0%, #f3f6fd 55%, #e9eefb 100%);
+  --bn-border: rgb(20 30 70 / 0.12);
+  --bn-fg: #14162b; --bn-sub: #4a4f66; --bn-muted: #6b7285;
+  --bn-dot: rgb(20 30 70 / 0.07); --bn-aura: 0.32;
+  --bn-glass: linear-gradient(135deg, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.55));
+  --bn-glass-bd: rgb(20 30 70 / 0.1); --bn-glass-hi: rgb(255 255 255 / 0.9);
+  color-scheme: light;
+}
+.dark {
+  --c-ink: #06060c; --c-panel: #0e0e1a; --c-line: #23233a;
+  --c-fg: #e2e8f0; --c-muted: #94a3b8;
+  --c-violet: #8b5cf6; --c-cyan: #22d3ee; --c-pink: #f472b6;
+  --glass-bg: rgb(255 255 255 / 0.04); --glass-bd: rgb(255 255 255 / 0.1);
+  --bn-a: #0a84ff; --bn-b: #30d1d0;
+  --bn-bg: linear-gradient(135deg, #0d1117 0%, #0f1420 55%, #161b22 100%);
+  --bn-border: rgb(255 255 255 / 0.08);
+  --bn-fg: #f5f5f7; --bn-sub: #a1a1a6; --bn-muted: #8a93a3;
+  --bn-dot: rgb(255 255 255 / 0.05); --bn-aura: 0.5;
+  --bn-glass: linear-gradient(135deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.045));
+  --bn-glass-bd: rgb(255 255 255 / 0.14); --bn-glass-hi: rgb(255 255 255 / 0.3);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ink: var(--c-ink);
+  --color-panel: var(--c-panel);
+  --color-line: var(--c-line);
+  --color-fg: var(--c-fg);
+  --color-muted: var(--c-muted);
+  --color-violet: var(--c-violet);
+  --color-cyan: var(--c-cyan);
+  --color-pink: var(--c-pink);
+  --font-sans: 'Inter', 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;            /* هدر ثابت روی عنوان بخش‌ها نیفتد */
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  @apply bg-ink text-fg font-sans antialiased;
+  overflow-x: clip;                     /* هیچ‌وقت اسکرول افقی نداشته باشیم */
+  transition: background-color .3s, color .3s;
+}
+:focus-visible { outline: 2px solid var(--c-cyan); outline-offset: 3px; border-radius: .5rem; }
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-bd);
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+  }
+  .text-gradient { @apply bg-gradient-to-l from-cyan to-violet bg-clip-text text-transparent; }
+  .section { @apply relative mx-auto max-w-6xl px-5 py-20 sm:px-6 md:py-28; }
+
+  /* پوسته‌ی مشترک هر دو بنر: پس‌زمینه، هاله‌ی نور، نقطه‌چین و خط بالایی */
+  .banner-card {
+    position: relative; display: block; isolation: isolate; overflow: hidden;
+    container-type: inline-size;
+    border-radius: 1.4rem; border: 1px solid var(--bn-border);
+    background: var(--bn-bg); color: var(--bn-fg); text-decoration: none;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .banner-card::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: var(--bn-aura-bg, radial-gradient(40% 90% at 50% 50%, color-mix(in srgb, var(--bn-a) calc(var(--bn-aura) * 100%), transparent), transparent));
+  }
+  .banner-card::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(90deg, transparent, var(--bn-a) 50%, transparent) top / 100% 3px no-repeat,
+      radial-gradient(circle at 1.2px 1.2px, var(--bn-dot) 1.2px, transparent 1.6px) 0 0 / 26px 26px;
+  }
+  a.banner-card:hover { border-color: color-mix(in srgb, var(--bn-a) 55%, transparent); box-shadow: 0 10px 40px -12px color-mix(in srgb, var(--bn-a) 45%, transparent); }
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
