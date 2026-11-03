@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { profile, ui } from '~/data/portfolio'
+import { assetUrl as getAssetUrl } from '~/utils/helper'
 const { t } = useLang()
+
+const { app: {baseURL} } = useRuntimeConfig()
+
+const imageUrl = (path: string) => {
+  return getAssetUrl(path, baseURL)
+}
 </script>
 
 <template>
@@ -10,7 +17,7 @@ const { t } = useLang()
         <div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-panel">
           <div class="absolute inset-0 flex items-center justify-center text-muted">{{ t(ui.about.photo) }}</div>
           <!-- عکس خود را در public/images/me.jpg قرار دهید -->
-          <img :src="profile.photo" alt="" class="relative h-full w-full object-fit" onerror="this.style.display='none'">
+          <img :src="imageUrl(profile.photo)" alt="" class="relative h-full w-full object-fit" onerror="this.style.display='none'">
         </div>
       </UiTiltCard>
     </div>
