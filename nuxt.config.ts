@@ -9,6 +9,9 @@ export default defineNuxtConfig({
   // اختیاری: برای رد شدن از محدودیت ۶۰ درخواست/ساعت گیت‌هاب، NUXT_GITHUB_TOKEN را در env بگذارید.
   runtimeConfig: { githubToken: "" },
   app: {
+    app: {
+      baseURL: "/my-portfolio/",
+    },
     head: {
       meta: [
         {
